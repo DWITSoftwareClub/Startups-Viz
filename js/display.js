@@ -1,5 +1,6 @@
 $(function () {
 	init();
+    var counter=0;
 	var tabletop;
  	var finalDateSelected;
 	var dateSelected;
@@ -16,7 +17,8 @@ $(function () {
     $('#dateSelect').change(function(){
         dateSelected=$('#dateSelect').val();
         console.log(dateSelected);
-        loadContent(companyName);
+        if (counter==0) loadContent(companyName)
+            else loadContentForCompare(companyName,companyNameForCompare);
 });
 
 	$("#selectCompareCompany").change(function(){
@@ -41,6 +43,7 @@ $(function () {
 	});
 	}
 	function loadContentForCompare(firstCompanyName,secondCompanyName){
+        counter=1;
         var data1=company[firstCompanyName];
         var data2=company[secondCompanyName];
         var company1Data=[];
@@ -118,6 +121,7 @@ $(function () {
         }
     }
 	function loadContent(companyName){
+        counter=0;
 		$('container2').show();
 		var info=[];  // list of date and likes
 		var countryInfo=[]; // list of country and its respective likes
