@@ -1,10 +1,8 @@
 $(function () {
 	init();
 	var tabletop;
- 	
-	var ddd='03/2016';
-	var startIndexForYear;
-	var endIndexForMonth;
+ 	var finalDateSelected;
+	var dateSelected;
 	var total_sum_of_country_likes=0;  // total sum of likes of page 
 	var company = {};
 	var companyName;
@@ -14,6 +12,12 @@ $(function () {
 		 $('#container2').show();
 		 loadContent(companyName);	
 	}); 
+
+    $('#dateSelect').change(function(){
+        dateSelected=$('#dateSelect').val();
+        console.log(dateSelected);
+        loadContent(companyName);
+});
 
 	$("#selectCompareCompany").change(function(){
 		$('#container2').hide();
@@ -30,9 +34,10 @@ $(function () {
 
 	function showInfo(data,tabletop){
 		$.each(tabletop.model_names, function(index, value){
-			console.log(this);
+			
 			company[this] = tabletop.sheets(this).all();
-			console.log(company[this]);
+            dateSelected= '2016-03';// '03/2016';
+			//console.log(company[this]);
 	});
 	}
 	function loadContentForCompare(firstCompanyName,secondCompanyName){
@@ -41,16 +46,16 @@ $(function () {
         var company1Data=[];
         var company2Data=[]
         $('#container2').hide();                    
-            
+        finalDateSelected=dateSelected.substr(5,6)+'/'+dateSelected.substr(0,4);    
         for(i=0;i<data1.length;i++){  // loop for adding date and likes according to the date in info
-            if(data1[i].date.substr(3,9)== ddd){
+            if(data1[i].date.substr(3,9)== finalDateSelected){
                 item= {"date":data1[i].date,"likes":data1[i].likes};              
                 company1Data.push(item);                
             }
         }
         
         for(i=0;i<data2.length;i++){  // loop for adding date and likes according to the date in info
-            if(data2[i].date.substr(3,9)== ddd){
+            if(data2[i].date.substr(3,9)== finalDateSelected){
                 item= {"date":data2[i].date,"likes":data2[i].likes};              
                 company2Data.push(item);                
             }
@@ -117,8 +122,9 @@ $(function () {
 		var info=[];  // list of date and likes
 		var countryInfo=[]; // list of country and its respective likes
 		var data = company[companyName];
+        finalDateSelected=dateSelected.substr(5,6)+'/'+dateSelected.substr(0,4);    
 		for(i=0;i<data.length;i++){  // loop for adding date and likes according to the date in info
-				if(data[i].date.substr(3,9)== ddd){
+				if(data[i].date.substr(3,9)== finalDateSelected){
 					item= {"date":data[i].date,"likes":data[i].likes};				
 					info.push(item);				
 				}
