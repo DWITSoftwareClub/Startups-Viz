@@ -1,8 +1,9 @@
 $(function () {
-	init();
+    init();    
     var counter=0;
 	var tabletop;
  	var finalDateSelected;
+    var initialDateSelected;
 	var dateSelected;
 	var total_sum_of_country_likes=0;  // total sum of likes of page 
 	var company = {};
@@ -15,11 +16,29 @@ $(function () {
     var bigCounter=0;
     	function init(){
 		var public_spreadsheet_url='https://docs.google.com/spreadsheets/d/1--POrwu6Lom3stoNe5LQz_BhyAb4Nz8-7ccRIpix4yM/pubhtml';
-		tabletop = Tabletop.init( { key: public_spreadsheet_url,
-                     callback: showInfo
-		 })
+		    tabletop = Tabletop.init( { key: public_spreadsheet_url,
+                callback: showInfo
+         })
 	}
-    
+
+           function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                console.log(start.format('DD/MM/YYYY') + ' ' + end.format('DD/MM/YYYY'));
+                initialDateSelected=Date.parse(start.format('YYYY-MM-DD'));
+                finalDateSelected=Date.parse(end.format('YYYY-MM-DD'));
+                console.log(typeof initialDateSelected);                
+                }
+                
+               cb(moment().subtract(29, 'days'), moment());
+                
+                $('#reportrange').daterangepicker({
+                    ranges: {
+                       'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                       'This Month': [moment().startOf('month'), moment().endOf('month')],
+                       'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                        }
+                    }, cb);
     
     function createLineChart(){
              lineCharts = new Highcharts.Chart({
@@ -63,11 +82,21 @@ $(function () {
     function showInfo(data,tabletop){
 		$.each(tabletop.model_names, function(index, value){
 			company[this] = tabletop.sheets(this).all();
-            dateSelected= '2016-03';
+          
 	});
 	}
     
-    
+    var initialDateToShow=function(){
+        var today=new Date();
+        var year=today.getFullYear();
+        var month=today.getMonth()+1;
+        if(month==1){
+            year=year-1;
+            month=12;
+        }
+        initialDateSelected=(year+'-'+month+'-'+'1');
+        finalDateSelected= (year+'-'+month+'-'+'1');   
+    }
     
     
 	function loadContent(companyName){
@@ -78,13 +107,16 @@ $(function () {
         var info=[];  // list of date and likes
 		var countryInfo=[]; // list of country and its respective likes
 		var data = company[companyName];
-        finalDateSelected=dateSelected.substr(5,6)+'/'+dateSelected.substr(0,4);    
+        //finalDateSelected=dateSelected.substr(5,6)+'/'+dateSelected.substr(0,4);    
 		for(i=0;i<data.length;i++){  // loop for adding date and likes according to the date in info
-				if(data[i].date.substr(3,9)== finalDateSelected){
+				//if(data[i].date.substr(3,9)== finalDateSelected)
+                if((Date.parse(returnDate(data[i].date)) >= initialDateSelected) && (Date.parse(returnDate(data[i].date))<=finalDateSelected)){
 					item= {"date":data[i].date,"likes":data[i].likes};				
 					info.push(item);				
 				}
+
 			}
+            console.log(info);
 			for(i=0;i<data.length;i++){ // loop for adding country likes
 				if (data[i].country=="" || data[i].countrylikes==""){
 					break;
@@ -107,7 +139,10 @@ $(function () {
 				goInChart(info,countryInfo);//info is for line graph while countryInfo is for pie chart
 		}
 	
-
+    function returnDate(oldDate){
+        var newDate=oldDate.substring(6,10)+'-'+oldDate.substring(3,5)+'-'+oldDate.substring(0,2);
+        return newDate;
+    }
 
 	function returnPercentage(countryLikes){
 		var percentage= (countryLikes/total_sum_of_country_likes) * 100;
@@ -115,10 +150,6 @@ $(function () {
 	}
     
     
-    function updateDate(){
-        
-        
-    }
 
 	function goInChart(info,countryInfo){ // function to display both line graph and pie chart
          categoriesData=[]; // dates are put here as a list
