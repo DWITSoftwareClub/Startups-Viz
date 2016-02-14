@@ -71,6 +71,7 @@ $('#countrylink').hide();
   this.blur(); 
 });
 share.open();
+
 });
 
 
@@ -92,11 +93,7 @@ share.open();
            <h3>Select startups and compare their growth (in Facebook likes).</h3>
 <br>
 
-<select class="selectpicker show-tick" multiple data-max-options="4" >
-  <option>Deerwalk</option>
-  <option>CloudFactory</option>
-  <option>Bla</option>
-<option>Deerwalk</option>
+<select class="selectpicker show-tick" multiple data-max-options="4" data-live-search="true" data-selected-text-format="count > 2" disabled>
 </select>
 <div id="reportrange" style="background: #fff; cursor: pointer; padding: 6px 13px; border: 1px solid #ccc; display:inline-block; border-radius: 5px;">
     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;

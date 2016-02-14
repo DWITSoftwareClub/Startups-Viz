@@ -91,10 +91,16 @@ $(function () {
 
     function showInfo(data,tabletop){
 		$.each(tabletop.model_names, function(index, value){
+			$('.selectpicker').append($('<option>', {
+                        text: this
+                    }));
+			
 			company[this] = tabletop.sheets(this).all();
           
 	});
 	$( "#submit" ).prop( "disabled", false );
+	$( ".selectpicker" ).prop( "disabled", false );
+	$(".selectpicker").selectpicker('refresh');
 	}
     
     var initialDateToShow=function(){
