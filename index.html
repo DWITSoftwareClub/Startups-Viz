@@ -1,64 +1,230 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Highcharts Example</title>
+<!DOCTYPE html>
+<html lang="en">
 
-<script type="text/javascript" src="http://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css" />
- <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<!-- Include Date Range Picker -->
-<script type="text/javascript" src="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Visualize the growth of Nepali startups" />
+    <meta name="author" content="Subigya Nepal" />
+<meta name="title" content="Visualizing Growth of Startups in Nepal" />
+<link rel="image_src" href="" />
+    <title>Visualizing Growth of Startups in Nepal</title>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/startups.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+
 <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
+<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet"> -->
 
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- Javascripts--> <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+    <script type="text/javascript" src="js/share.min.js"></script>
 <script type="text/javascript" src="js/display.js"> </script>
 
 
 		<script src="js/highcharts.js"></script>
 <script src="js/modules/exporting.js"></script>
 <script src="js/moment.js"> </script>
-<script src="js/tabletop.js"></script>
-<!-- <!-- cdn for modernizr, if you haven't included it already -->
 
-<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/tabletop.js"></script>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script> -->
-<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script> 
+       
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<script type="text/javascript">
 
-		<style type="text/css">
+function toggleDiv(divId) {
 
-		</style>
+   $("#"+divId).toggle();
 
-<script>
+}
+
+jQuery(document).ready(function(){
+    toggleDiv('container1');
+    toggleDiv('container2');
+    toggleDiv('container3');
+    toggleDiv('container4');
+$('#countrylink').hide();
+ $('#link').click(function () {
+  this.blur(); 
+});
+share.open();
+});
+
+
 
 </script>
-	</head>
-	<body>
+</head>
 
-<select class="selectpicker show-tick" multiple data-max-options="2">
+<body>
+
+    <!-- Header -->
+   <header id="top"> </header>
+
+
+
+
+
+<div class="text-vertical-center">
+  <h1>Visualizing Growth of Startups in Nepal</h1>    <div id="info">
+           <h3>Select startups and compare their growth (in Facebook likes).</h3>
+<br>
+
+<select class="selectpicker show-tick" multiple data-max-options="4" >
   <option>Deerwalk</option>
   <option>CloudFactory</option>
   <option>Bla</option>
+<option>Deerwalk</option>
 </select>
-<input type="button" id="submit" value="Submit"/>
-
-<div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+<div id="reportrange" style="background: #fff; cursor: pointer; padding: 6px 13px; border: 1px solid #ccc; display:inline-block; border-radius: 5px;">
     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
     <span></span> <b class="caret"></b>
 </div>
+<button type="button" id="submit" value="Submit" class="btn btn-default" style="margin-left:5px;" disabled>Submit</button>
 
+<div id="container" ></div>
 
-
-
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="countrylink" style="text-align:center"> 
+    <a id="link" href="javascript:toggleDiv('container1');toggleDiv('container2');toggleDiv('container3');toggleDiv('container4');" style="background-color: #A5A5A5; padding: 5px 10px; a-color: #322F2F">Country Information</a>
+<br>
+</div>
+<br>
 <div id="container1"></div>
-    <div id="container2"></div>
-    <div id="container3"></div>
+<div id="container2"></div>
+<div id="container3"></div>
+<div id="container4"></div>
+
+            <br>
+
+   
+</div>
+    <!-- Share Button -->
+ 
+  <aside class="call-to-action bg-primary">
+        <div class="container">
+            <div class="row">
+               <div class="row"><div class="col-lg-12 text-center">
+<br>
+<br>
+
+               <div class="share-button" style="margin:0 auto; text-align:center"><script>
+
+config = {
+  networks: {
+    email: {
+      enabled: false
+    }
+  }
+}
+
+    var share = new Share(".share-button", config);
+</script>
+</div>
+                </div>
+            </div>
+        <div>
+    </aside>
+
+    <!-- Details -->
+    
+    <section id="details">
+        <div class="container">
+            <div class="row">
+
+<br>
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h3><strong>Where did the data come from?</strong>
+                    </h3>
+                    <p class="lead"><a href="http://wwwnc.cdc.gov/travel/notices" class="highlight">Travel Health Notices from CDC.</a> </p><br>
+                    <h3><strong>What do the colored markers (red, green, yellow) represent?</strong>
+                    </h3>
+                    <p class="lead">The colors represent three different kinds of notices issued by the CDC. </p>
+<ul class="list-unstyled">
+                        <li><img src="img/Warning.png" alt="red marker"></a> Warning Level 3, Avoid Nonessential Travel</li>
+                        <li><img src="img/Alert.png" alt="yellow marker"></a>Alert Level 2, Practice Enhanced Precautions</li>
+			<li><img src="img/Watch.png" alt="green marker"></a> Watch Level 1, Practice Usual Precautions </li>
+                    </ul>
+                 
+                </div>
+</div>
+        </div>
+<br>
+        </section>
+<!-- Contact -->
+ <section id="contact" class="services bg-primary">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h2>Developers</h2>
+                    <hr class="small">
+                    <div class="row"><div class="col-md-3 col-sm-6">
+                            <div class="contact-item">
+                                     </div>
+                        </div>
+        <div class="col-md-6 col-sm-6">
+                            <div class="contact-item">
+                                  <h4><strong><a href="http://www.thetaranights.com">Bhishan Bhandari</a></strong> </h4>
+				  <h4><strong><a href="http://www.chromeearth.com">Bipin Paudel</a></strong></h4>
+  				  <h4><strong><a href="http://www.twitter.com/SkNepal">Subigya Kumar Nepal</a></strong></h4>
+     
+                    <br>
+                    <ul class="list-inline">
+                        
+                        <li>
+                            <a href="https://github.com/DWITSoftwareClub/Startups-Viz"><i class="fa fa-github fa-fw fa-3x"></i></a>
+                        </li>
+                    </ul>
+                   
+                            </div>
+                        </div>
+              <div class="col-md-3 col-sm-6">
+                            <div class="contact-item">
+                                     </div>
+                        </div>
 
 
-	</body>
+                    </div>
+                </div>
+            </div>
+          </div>
+    </section>
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+ <hr class="small">
+                    <p class="text-muted">Copyright &copy; 2016</p>
+
+                    </div>
+
+    <!-- Bootstrap Core JavaScript <script src="js/bootstrap.min.js"></script> -->
+    
+
+    <!-- Google Analytics -->
+<script>
+  
+
+</script>
+
+</body>
+
 </html>
