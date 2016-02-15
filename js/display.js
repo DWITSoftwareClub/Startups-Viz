@@ -1,5 +1,6 @@
 $(function () {
     init();    
+   
     var counter=0;
 	var tabletop;
  	var finalDateSelected;
@@ -12,10 +13,12 @@ $(function () {
     var lineCharts;
     var pieCharts;
     var lineData = [];
+     var summary=[]; // json variable and contains growthrate of every companies.
+    var allCompanyList=[]; // contains list of all the companies in spreadsheet
     var  dateSelected;
     var bigCounter=0;
     	function init(){
-//console.log('Test');
+
 		var public_spreadsheet_url='https://docs.google.com/spreadsheets/d/1--POrwu6Lom3stoNe5LQz_BhyAb4Nz8-7ccRIpix4yM/pubhtml';
 		    tabletop = Tabletop.init( { key: public_spreadsheet_url,
                 callback: showInfo
@@ -88,19 +91,20 @@ $(function () {
 
 		}
 	}); 
-
+ 
     function showInfo(data,tabletop){
 		$.each(tabletop.model_names, function(index, value){
 			$('.selectpicker').append($('<option>', {
                         text: this
                     }));
-			
+			allCompanyList.push(this);
 			company[this] = tabletop.sheets(this).all();
           
 	});
 	$( "#submit" ).prop( "disabled", false );
 	$( ".selectpicker" ).prop( "disabled", false );
 	$(".selectpicker").selectpicker('refresh');
+   calculateSummary(); 
 	}
     
     var initialDateToShow=function(){
@@ -115,8 +119,9 @@ $(function () {
         finalDateSelected= (year+'-'+month+'-'+'1');   
     }
     
-    
+  
 	function loadContent(companyName){
+
         counter=0;
         bigCounter=bigCounter+1;
        
@@ -133,7 +138,7 @@ $(function () {
 				}
 
 			}
-            console.log(info);
+           
 			for(i=0;i<data.length;i++){ // loop for adding country likes
 				if (data[i].country=="" || data[i].countrylikes==""){
 					break;
@@ -151,11 +156,41 @@ $(function () {
 				countryItem={"name":data[i].country,"y":returnPercentage(parseInt(data[i].countrylikes))};
 				countryInfo.push(countryItem);
 					}
-				}
+				}       
 			     
 				goInChart(info,countryInfo, companyName);//info is for line graph while countryInfo is for pie chart
 		}
-	
+
+
+
+	   function calculateSummary(){ // calculates growthrate of every company
+      for(i=0;i<allCompanyList.length;i++){
+          var listOfPercentage=[];
+          var growthRateData= company[allCompanyList[i]];
+          summary.push(allCompanyList[i]);
+          for(var j=0;j<growthRateData.length;j++){
+              if(growthRateData[j].date.substring(0,2)=='28'){
+                listOfPercentage.push(parseInt(growthRateData[j].growth));
+              }
+          }
+          var temp={"company":allCompanyList[i],"growthRate":calculateGrowthRate(listOfPercentage)};
+          summary.push(temp);
+        }
+          
+         console.log(summary);
+     }
+
+    function calculateGrowthRate(listOfPercentage){
+
+        var totalNumberOfItems= listOfPercentage.length-1;
+        var sum=0;
+        for(var i=0;i<listOfPercentage.length;i++){
+          sum += listOfPercentage[i];
+        }
+        return (sum/totalNumberOfItems) ;
+    }
+
+
     function returnDate(oldDate){
         var newDate=oldDate.substring(6,10)+'-'+oldDate.substring(3,5)+'-'+oldDate.substring(0,2);
         return newDate;
