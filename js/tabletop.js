@@ -187,6 +187,7 @@
       Insert the URL into the page as a script tag. Once it's loaded the spreadsheet data
       it triggers the callback. This helps you avoid cross-domain errors
       http://code.google.com/apis/gdata/samples/spreadsheet_sample.html
+
       Let's be plain-Jane and not use jQuery or anything.
     */
     injectScript: function(path, callback) {
@@ -295,6 +296,7 @@
       Need to use injectScript because the worksheet view that you're working from
       doesn't actually include the data. The list-based feed (/feeds/list/key..) does, though.
       Calls back to loadSheet in order to get the real work done.
+
       Used as a callback for the worksheet-based JSON
     */
     loadSheets: function(data) {
@@ -353,6 +355,7 @@
 
     /*
       Parse a single list-based worksheet, turning it into a Tabletop Model
+
       Used as a callback for the list-based JSON
     */
     loadSheet: function(data) {
@@ -393,6 +396,7 @@
   /*
     Tabletop.Model stores the attribute names and parses the worksheet data
       to turn it into something worthwhile
+
     Options should be in the format { data: XXX }, with XXX being the list-based worksheet
   */
   Tabletop.Model = function(options) {
@@ -468,3 +472,4 @@
   }
 
 })(this);
+
