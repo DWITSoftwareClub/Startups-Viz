@@ -191,7 +191,7 @@ $(function () {
       }
       var temp= calculateGrowthRate(listOfPercentage);
       
-      document.getElementById("summary").innerHTML="Growth rate": temp;
+      document.getElementById("summary").innerHTML +="Growth rate of "+companyName+ ": "+ temp + "\n";
       return temp;
     }
 
