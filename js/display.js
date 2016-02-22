@@ -104,7 +104,7 @@ $(function () {
 	$( "#submit" ).prop( "disabled", false );
 	$( ".selectpicker" ).prop( "disabled", false );
 	$(".selectpicker").selectpicker('refresh');
-   calculateSummary(); 
+
 	}
     
     var initialDateToShow=function(){
@@ -159,26 +159,41 @@ $(function () {
 				}       
 			     
 				goInChart(info,countryInfo, companyName);//info is for line graph while countryInfo is for pie chart
-		}
+		calculateSummary(companyName);
+    }
 
 
 
-	   function calculateSummary(){ // calculates growthrate of every company
-      for(i=0;i<allCompanyList.length;i++){
-          var listOfPercentage=[];
-          var growthRateData= company[allCompanyList[i]];
-          summary.push(allCompanyList[i]);
-          for(var j=0;j<growthRateData.length;j++){
-              if(growthRateData[j].date.substring(0,2)=='28'){
-                listOfPercentage.push(parseInt(growthRateData[j].growth));
-              }
-          }
-          var temp={"company":allCompanyList[i],"growthRate":calculateGrowthRate(listOfPercentage)};
-          summary.push(temp);
-        }
+	   // function calculateSummary(){ // calculates growthrate of every company
+    //   for(i=0;i<allCompanyList.length;i++){
+    //       var listOfPercentage=[];
+    //       var growthRateData= company[allCompanyList[i]];
+    //       summary.push(allCompanyList[i]);
+    //       for(var j=0;j<growthRateData.length;j++){
+    //           if(growthRateData[j].date.substring(0,2)=='28'){
+    //             listOfPercentage.push(parseInt(growthRateData[j].growth));
+    //           }
+    //       }
+    //       var temp={"company":allCompanyList[i],"growthRate":calculateGrowthRate(listOfPercentage)};
+    //       summary.push(temp);
+    //     }
           
-         console.log(summary);
-     }
+    //      console.log(summary);
+    //  }
+
+    function calculateSummary(companyName){
+      var growthRateData=company[companyName];
+      var listOfPercentage=[];
+      for(var i=0;i<growthRateData.length;i++){
+        if(growthRateData[i].date.substring(0,2)=='28'){
+          listOfPercentage.push(parseInt(growthRateData[i].growth));
+        }
+      }
+      var temp= calculateGrowthRate(listOfPercentage);
+      
+      document.getElementById("summary").innerHTML="Growth rate": temp;
+      return temp;
+    }
 
     function calculateGrowthRate(listOfPercentage){
 
